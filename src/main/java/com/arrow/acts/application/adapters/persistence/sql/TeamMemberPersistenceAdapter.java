@@ -71,6 +71,11 @@ public class TeamMemberPersistenceAdapter implements TeamMemberPort {
         return repository.existsById(id);
     }
 
+    @Override
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+
     // ── Mappers Entity ↔ Domain ────────────────────────────────────────────────
 
     private TeamMemberEntity toEntity(TeamMember member) {

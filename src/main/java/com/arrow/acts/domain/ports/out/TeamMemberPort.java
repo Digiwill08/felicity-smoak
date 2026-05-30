@@ -26,4 +26,6 @@ public interface TeamMemberPort {
     List<TeamMember> findByRole(TeamRole role);
 
     boolean existsById(Long id);
+
+    void deleteById(Long id);
 }
