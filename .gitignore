@@ -1,0 +1,24 @@
+# Compiled output
+target/
+
+# IDE files
+.idea/
+*.iml
+*.ipr
+*.iws
+.netbeans/
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment / secrets
+application-prod.properties
+application-local.properties
