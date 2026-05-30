@@ -57,15 +57,21 @@ public class ThreatPrioritizationService {
 
     private Comparator<MirakuruSubject> buildPriorityComparator() {
         return Comparator
-                // 1. ThreatLevel: CRITICAL(3) > HIGH(2) > MEDIUM(1) > LOW(0)
-                .comparingInt((MirakuruSubject s) -> threatLevelOrdinal(s.getThreatLevel()))
-                .reversed()
-                // 2. Concentración: mayor primero
-                .thenComparingDouble(MirakuruSubject::getMirakuruConcentration)
-                .reversed()
-                // 3. Más reciente primero
-                .thenComparing(s -> s.getRegisteredAt() != null ? s.getRegisteredAt() : java.time.Instant.MIN,
-                               Comparator.reverseOrder());
+                // 1. ThreatLevel descendente: CRITICAL(3) > HIGH(2) > MEDIUM(1) > LOW(0)
+                .<MirakuruSubject, Integer>comparing(
+                        s -> threatLevelOrdinal(s.getThreatLevel()),
+                        Comparator.reverseOrder()
+                )
+                // 2. Concentración descendente (mayor concentración = mayor prioridad)
+                .thenComparing(
+                        Comparator.comparingDouble(MirakuruSubject::getMirakuruConcentration)
+                                  .reversed()
+                )
+                // 3. Registro más reciente primero
+                .thenComparing(
+                        s -> s.getRegisteredAt() != null ? s.getRegisteredAt() : java.time.Instant.MIN,
+                        Comparator.reverseOrder()
+                );
     }
 
     private int threatLevelOrdinal(ThreatLevel level) {
